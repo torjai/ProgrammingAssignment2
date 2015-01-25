@@ -2,25 +2,22 @@
 
 ## How to use it?
 ## 1. Call 'makeCacheMatrix' function with a square matrix as attribute, and 
-##    assign its output to a variable.
-## 2. Call 'cacheSolve' function with the previously defined variable as attribute.
+##    assign its output to a variable, e.g. 'var'.
+## 2. Call 'cacheSolve' function with the previously defined variable ('var') as attribute.
 ## 
-## If you want to provide the inverse of a matrix multiple times, just repeat Step 2, and 
-## the inverse is given from the cache.
+## Change the matrix with calling var$set(<new matrix>), then repeat Step 2.
 
-## Drawbacks:
-## - if you call 'cacheSolve(makeCacheMatrix(x))', it always clears the cache and
-##    calculates the inverse
-## - if you call 'makeCacheMatrix(x)' multiple times with the same attrinute, 
-##    it always clears the cache  
-
-## 'makeCacheMatrix' gives back a list of methods to cache and get the inverse matrix 
+## 'makeCacheMatrix' gives back a list of methods to cache and get the inverse matrix
+## if a new matrix is assigned via the 'set' function, it is compared to the previous one, and
+## the cache is cleared only if the two matrices are not identical
 
 makeCacheMatrix <- function(x = matrix()) {
       m <- NULL
       set <- function(y) {
-            x <<- y
-            m <<- NULL
+            if (!identical(x,y)) {
+                  x <<- y
+                  m <<- NULL
+            } 
       }
       get <- function() x
       setinverse <- function(inverse) m <<- inverse
